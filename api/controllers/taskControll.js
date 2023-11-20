@@ -31,5 +31,15 @@ const getTask = async (req, res) => {
     res.status(500).json(error)
   }
 }
+const deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params
+    const task = await Task.findByIdAndDelete(id)
+    if (!task) return res.status(404).json(`Task with id: ${id} not found`)
+    res.send(`Task Deleted`)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
 
-module.exports = { createTask, getTasks, getTask }
+module.exports = { createTask, getTasks, getTask, deleteTask }
