@@ -20,10 +20,12 @@ const getTasks = async (req, res) => {
   }
 }
 
+//get a single task
 const getTask = async (req, res) => {
   try {
     const { id } = req.params
     const task = await Task.findById(id)
+    if (!task) return res.status(404).json(`Task with id: ${id} not found`)
     res.status(200).json(task)
   } catch (error) {
     res.status(500).json(error)
