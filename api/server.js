@@ -5,7 +5,13 @@ const mongoose = require(`mongoose`)
 
 const connectDB = require('./config/mongoDB')
 const Task = require('./config/Models')
-const { createTask, getTasks, getTask, deleteTask } = require('./controllers/taskControll')
+const {
+  createTask,
+  getTasks,
+  getTask,
+  deleteTask,
+  updateTask,
+} = require('./controllers/taskControll')
 
 const app = express()
 
@@ -18,6 +24,7 @@ app.post(`/api/task`, createTask)
 app.get(`/api/task`, getTasks)
 app.get(`/api/task/:id`, getTask)
 app.delete(`/api/task/:id`, deleteTask)
+app.put(`/api/task/:id`, updateTask)
 
 const PORT = process.env.PORT || 5000
 
