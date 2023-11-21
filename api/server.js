@@ -19,6 +19,10 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+//Shorter line of code
+// app.route(`/api/task`).post(createTask).get(getTasks)
+// app.route(`/api/task/:id`).get(getTask).delete(deleteTask).put(updateTask)
+
 app.get(`/`, (req, res) => res.send(`Welcome to Home Page`))
 app.post(`/api/task`, createTask)
 app.get(`/api/task`, getTasks)
@@ -27,6 +31,14 @@ app.delete(`/api/task/:id`, deleteTask)
 app.put(`/api/task/:id`, updateTask)
 
 const PORT = process.env.PORT || 5000
+
+// mongoose
+//   .connect(process.env.MONGO_URI)
+//   .then(() => {
+//     console.log(`mongodb connected successfully`)
+//     app.listen(PORT, () => console.log(`listening on port ${PORT}`))
+//   })
+//   .catch((error) => console.log(error))
 
 const connectServer = async () => {
   try {
