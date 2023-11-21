@@ -2,6 +2,7 @@ const dotenv = require('dotenv').config()
 
 const express = require(`express`)
 const mongoose = require(`mongoose`)
+const cors = require(`cors`)
 
 const connectDB = require('./config/mongoDB')
 const Task = require('./config/Models')
@@ -14,6 +15,7 @@ const {
 } = require('./controllers/taskControll')
 
 const app = express()
+app.use(cors())
 
 //middleware
 app.use(express.json())
@@ -31,9 +33,10 @@ app.delete(`/api/task/:id`, deleteTask)
 app.put(`/api/task/:id`, updateTask)
 
 const PORT = process.env.PORT || 5000
+// MONGO_URI = `mongodb+srv://task:11111234Aa@cluster0.xvwyqdc.mongodb.net/?retryWrites=true&w=majority`
 
 // mongoose
-//   .connect(process.env.MONGO_URI)
+//   .connect(MONGO_URI)
 //   .then(() => {
 //     console.log(`mongodb connected successfully`)
 //     app.listen(PORT, () => console.log(`listening on port ${PORT}`))

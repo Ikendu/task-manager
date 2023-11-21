@@ -2,6 +2,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import TaskList from './components/TaskList'
 
+export const URL = import.meta.env.VITE_API_URL
+
 function App() {
   return (
     <>
