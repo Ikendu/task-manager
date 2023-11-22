@@ -11,6 +11,8 @@ const TaskList = () => {
   const [tasks, setTasks] = useState([])
   const [complete, setComplete] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [taskId, setTaskId] = useState(``)
 
   const { name } = formData
 
@@ -60,10 +62,32 @@ const TaskList = () => {
     }
   }
 
+  const getOneTask = async (task) => {
+    setFormData({ name: task.name, complete: false })
+    setIsEditing(true)
+    setTaskId(task._id)
+  }
+
+  const updateTask = async () => {
+    try {
+      await axios.put(`${URL}/api/task/${taskId}`)
+      toast.success(`Updated successfully`)
+      setIsEditing(false)
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
   return (
     <div>
       <h2>Task Manager</h2>
-      <TaskForm name={name} handleInput={handleInput} createTask={createTask} />
+      <TaskForm
+        name={name}
+        handleInput={handleInput}
+        createTask={createTask}
+        isEditing={isEditing}
+        updateTask={updateTask}
+      />
       <div className='--flex-between pb'>
         <p>
           <b>Total Tasks: </b> 0
@@ -87,7 +111,13 @@ const TaskList = () => {
         </div>
       ) : (
         tasks.map((task, index) => (
-          <Tasks {...task} key={task._id} index={index} deleteTask={deleteTask} />
+          <Tasks
+            task={task}
+            key={task._id}
+            index={index}
+            deleteTask={deleteTask}
+            getOneTask={getOneTask}
+          />
         ))
       )}
     </div>

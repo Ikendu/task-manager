@@ -1,7 +1,7 @@
-const TaskForm = ({ name, handleInput, createTask }) => {
+const TaskForm = ({ name, handleInput, createTask, isEditing, updateTask }) => {
   return (
     <div>
-      <form className='task-form' onSubmit={createTask}>
+      <form className='task-form' onSubmit={isEditing ? updateTask : createTask}>
         <input
           name='name'
           placeholder='Add a task'
@@ -9,7 +9,7 @@ const TaskForm = ({ name, handleInput, createTask }) => {
           value={name}
           onChange={handleInput}
         />
-        <button type='submit'>Add</button>
+        <button type='submit'>{isEditing ? `Edit` : `Add`}</button>
       </form>
     </div>
   )
