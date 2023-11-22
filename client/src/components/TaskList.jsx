@@ -9,7 +9,6 @@ import loadImg from '../assets/load.gif'
 const TaskList = () => {
   const [formData, setFormData] = useState({ name: ``, complete: false })
   const [tasks, setTasks] = useState([])
-  const [complete, setComplete] = useState(true)
   const [loading, setLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [taskId, setTaskId] = useState(``)
@@ -63,16 +62,30 @@ const TaskList = () => {
   }
 
   const getOneTask = async (task) => {
-    setFormData({ name: task.name, complete: false })
+    setFormData({ name: task.name, completed: false })
     setIsEditing(true)
     setTaskId(task._id)
   }
 
-  const updateTask = async () => {
+  const updateTask = async (e) => {
+    e.preventDefault()
     try {
-      await axios.put(`${URL}/api/task/${taskId}`)
+      await axios.put(`${URL}/api/task/${taskId}`, formData)
+      setFormData({ ...formData, name: `` })
       toast.success(`Updated successfully`)
       setIsEditing(false)
+      getTasks()
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  const completedTask = async (task) => {
+    const newFormData = { name: task.name, completed: true }
+    try {
+      await axios.put(`${URL}/api/task/${task._id}`, newFormData)
+      getTasks()
+      toast.success(`task completed successfully, Next task`)
     } catch (error) {
       toast.error(error.message)
     }
@@ -117,6 +130,7 @@ const TaskList = () => {
             index={index}
             deleteTask={deleteTask}
             getOneTask={getOneTask}
+            completedTask={completedTask}
           />
         ))
       )}
